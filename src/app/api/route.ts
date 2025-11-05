@@ -1,6 +1,19 @@
-export default function handler(req, res) {
-  if (req.method !== 'GET') {
-    return res.status(405).json({ message: 'Method Not Allowed' });
-  }
-  return res.status(200).json({ message: 'Hello, world!' });
+import { NextResponse } from 'next/server';
+
+export async function GET(request: Request) {
+  return NextResponse.json({ message: 'Hello, world!' }, { status: 200 });
 }
+
+async function methodNotAllowed(request: Request) {
+  return NextResponse.json(
+    { message: 'Method Not Allowed' },
+    { status: 405 }
+  );
+}
+
+export {
+  methodNotAllowed as POST,
+  methodNotAllowed as PUT,
+  methodNotAllowed as DELETE,
+  methodNotAllowed as PATCH,
+};
