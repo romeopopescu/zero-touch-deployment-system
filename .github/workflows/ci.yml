@@ -83,4 +83,4 @@ jobs:
             ghcr.io/${{ github.repository }}:${{ github.sha }}
 
       - name: Call Render Deploy Hook
-        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
+        run: curl -X POST "${{ secrets.RENDER_DEPLOY_SECRET }}"
