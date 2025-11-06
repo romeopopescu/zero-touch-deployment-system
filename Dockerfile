@@ -21,4 +21,4 @@ COPY --from=builder /app/.next/standalone ./
 
 EXPOSE 3000
 
-CMD ["node", ".next/server/index.js"]
+CMD ["find", ".", "-maxdepth", "4"]
