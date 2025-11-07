@@ -4,7 +4,7 @@ import Home from '../src/app/page';
 describe('Home Page', () => {
   it('renders a welcome heading', () => {
     render(<Home />);
-    const heading = screen.getByText(/Hello, next!/i);
+    const heading = screen.getByText(/Zero Touch Deployment System/i);
     expect(heading).toBeInTheDocument();
   });
 });
