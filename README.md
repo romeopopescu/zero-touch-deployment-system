@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Zero-Touch Deployment System (Next.js & Docker)
 
-## Getting Started
+[CI/CD Pipeline](https://github.com/romeopopescu/zero-touch-deployment-system/actions)
 
-First, run the development server:
+A complete, "zero-touch" CI/CD pipeline that automatically builds, tests, containerizes, and deploys a full-stack Next.js application.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+**This isn't just an app; it's an automated factory for shipping code.**
+
+**Live Demo:** [https://zero-touch-deployment-system.onrender.com](https://zero-touch-deployment-system.onrender.com)
+
+---
+
+## How It Works: The Pipeline
+
+This system is built on GitHub Actions and automatically triggers on every `push` to the `main` branch.
+
+Here is the entire workflow:
+
+```plaintext
+[Push code to main]
+       |
+       v
+[GitHub Action Triggered]
+ |
+ +--> 1. Test & Lint
+ |     - Installs dependencies (`npm ci`)
+ |     - Runs ESLint (`npm run lint`)
+ |     - Runs Jest tests (`npm run test`)
+ |     - Uploads coverage report (Bonus)
+ |
+ +--> 2. Build & Push Docker Image (if tests pass)
+ |     - Logs into GitHub Container Registry (GHCR)
+ |     - Builds a multi-stage, production-optimized Docker image
+ |     - Pushes image to `ghcr.io/username/repo:latest`
+ |
+ +--> 3. Trigger Deployment (if build passes)
+      - Calls Render.com deploy hook (`curl`)
+      - Render pulls the new image from GHCR and deploys
+ 
 ```
+## Tech Stack 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Application** 
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Next.js: Full-stack React framework (App Router)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+TypeScript: For static typing
 
-## Learn More
+Jest & React Testing Library: For unit and component testing
 
-To learn more about Next.js, take a look at the following resources:
+**DevOps & Infrastructure**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+GitHub Actions: For CI/CD automation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Docker: For containerization
 
-## Deploy on Vercel
+GitHub Container Registry (GHCR): For hosting the Docker image
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Render: For production hosting (pulls from GHCR)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Key Features
+
+Zero-Touch Deployment: Code pushed to main is live in production automatically.
+
+Quality Gates: The pipeline fails if linting or tests don't pass, preventing bad code from being deployed.
+
+Production-Grade Dockerfile: Uses a multi-stage build to create a tiny, fast, and secure final container.
+
+Test Coverage: Generates a test coverage report on every run.
